@@ -1,0 +1,814 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Готель Chardonnay</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;700&family=Montserrat:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+*{
+ margin:0;
+ padding:0;
+ box-sizing:border-box;
+ scroll-behavior:smooth;
+}
+body{
+ font-family:'Montserrat', sans-serif;
+ background:#f4f1ea;
+ color:#2d342f;
+}
+nav{
+ position:fixed;
+ top:0;
+ width:100%;
+ padding:22px 90px;
+ display:flex;
+ justify-content:space-between;
+ align-items:center;
+ background:rgba(34,48,38,0.78);
+ backdrop-filter:blur(12px);
+ z-index:1000;
+}
+nav h1{
+ color:#f5f1e8;
+ font-size:38px;
+ letter-spacing:2px;
+ font-family:'Cormorant Garamond', serif;
+}
+nav ul{
+ display:flex;
+ list-style:none;
+ gap:35px;
+}
+nav ul li a{
+ color:#f5f1e8;
+ text-decoration:none;
+ transition:0.3s;
+ font-size:15px;
+ letter-spacing:1px;
+}
+nav ul li a:hover{
+ color:#b8a07b;
+}
+/* Стиль для кнопки адмін-панелі */
+.admin-nav-btn {
+    background: #7b5e45;
+    padding: 8px 18px;
+    border-radius: 40px;
+    transition: 0.3s;
+}
+.admin-nav-btn:hover {
+    background: #9b7a5c;
+    color: white !important;
+}
+header{
+ height:100vh;
+ background: linear-gradient(rgba(0,0,0,0.45), rgba(0,0,0,0.45)), url('https://images.unsplash.com/photo-1522798514-97ceb8c4f1c8?q=80&w=1600&auto=format&fit=crop') center/cover no-repeat;
+ display:flex;
+ flex-direction:column;
+ justify-content:center;
+ align-items:center;
+ text-align:center;
+ color:white;
+ padding:20px;
+}
+.hero-subtitle{
+ letter-spacing:4px;
+ margin-bottom:20px;
+ font-size:14px;
+}
+.hero-title{
+ font-size:95px;
+ font-family:'Cormorant Garamond', serif;
+ margin-bottom:25px;
+}
+.hero-text{
+ max-width:760px;
+ line-height:1.9;
+ font-size:20px;
+}
+.btn{
+ margin-top:30px;
+ padding:16px 42px;
+ border:none;
+ border-radius:50px;
+ background:#556b57;
+ color:white;
+ font-size:16px;
+ cursor:pointer;
+ transition:0.3s;
+ text-decoration:none;
+ display:inline-block;
+}
+.btn:hover{
+ background:#415243;
+ transform:translateY(-3px);
+}
+section{
+ padding:110px 10%;
+}
+.section-title{
+ text-align:center;
+ font-size:60px;
+ font-family:'Cormorant Garamond', serif;
+ color:#3c4a3f;
+ margin-bottom:15px;
+}
+.section-subtitle{
+ text-align:center;
+ color:#6d736e;
+ max-width:700px;
+ margin:0 auto 70px;
+ line-height:1.8;
+}
+.rooms{
+ display:grid;
+ grid-template-columns:repeat(auto-fit,minmax(320px,1fr));
+ gap:35px;
+}
+.room-card{
+ overflow:hidden;
+ border-radius:30px;
+ background:white;
+ box-shadow:0 12px 35px rgba(0,0,0,0.08);
+ transition:0.4s;
+}
+.room-card:hover{
+ transform:translateY(-12px);
+}
+.room-card img{
+ width:100%;
+ height:280px;
+ object-fit:cover;
+}
+.room-content{
+ padding:30px;
+}
+.room-content h3{
+ font-size:34px;
+ font-family:'Cormorant Garamond', serif;
+ color:#3c4a3f;
+ margin-bottom:15px;
+}
+.room-content p{
+ color:#666;
+ line-height:1.7;
+}
+.price{
+ margin-top:20px;
+ color:#7b5e45;
+ font-size:24px;
+ font-weight:600;
+}
+.booking{
+ background:white;
+ border-radius:35px;
+ padding:55px;
+ box-shadow:0 12px 35px rgba(0,0,0,0.07);
+}
+form{
+ display:grid;
+ gap:25px;
+}
+input, select{
+ padding:18px;
+ border-radius:16px;
+ border:1px solid #d9d9d9;
+ font-size:16px;
+ background:#faf8f3;
+}
+.total-box{
+ background:#edf1eb;
+ padding:25px;
+ border-radius:20px;
+ text-align:center;
+ font-size:24px;
+ font-weight:600;
+ color:#3c4a3f;
+}
+.old-price{
+ margin-top:15px;
+ font-size:16px;
+ color:#6c726d;
+}
+footer{
+ background:#283228;
+ color:white;
+ text-align:center;
+ padding:50px;
+ margin-top:80px;
+}
+footer h2{
+ font-family:'Cormorant Garamond', serif;
+ font-size:42px;
+ margin-bottom:15px;
+}
+.admin-modal{
+ position:fixed;
+ top:0;
+ left:0;
+ width:100%;
+ height:100%;
+ background:rgba(0,0,0,0.75);
+ display:none;
+ justify-content:center;
+ align-items:center;
+ z-index:3000;
+}
+.admin-box{
+ width:90%;
+ max-width:650px;
+ background:white;
+ border-radius:35px;
+ padding:55px;
+ position:relative;
+ max-height:90vh;
+ overflow-y:auto;
+}
+.close-btn{
+ position:absolute;
+ right:28px;
+ top:18px;
+ font-size:36px;
+ cursor:pointer;
+ color:#556b57;
+}
+.admin-box h2{
+ text-align:center;
+ margin-bottom:30px;
+ color:#3c4a3f;
+ font-family:'Cormorant Garamond', serif;
+ font-size:42px;
+}
+.report-cards{
+ display:grid;
+ grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
+ gap:25px;
+ margin-top:35px;
+}
+.report-card{
+ background:#edf1eb;
+ padding:30px;
+ border-radius:24px;
+}
+.report-card h3{
+ color:#556b57;
+ margin-bottom:15px;
+}
+.report-card p{
+ color:#555;
+ line-height:1.7;
+}
+.chart-img{
+ width:100%;
+ margin-top:15px;
+ border-radius:15px;
+}
+.about-content {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 50px;
+    align-items: center;
+    justify-content: center;
+    margin-top: 30px;
+}
+.about-text {
+    flex: 1;
+    min-width: 280px;
+    font-size: 18px;
+    line-height: 1.8;
+    color: #3c4a3f;
+}
+.about-text p {
+    margin-bottom: 20px;
+}
+.about-text strong {
+    color: #7b5e45;
+}
+.about-image {
+    flex: 1;
+    min-width: 280px;
+    border-radius: 30px;
+    overflow: hidden;
+    box-shadow: 0 15px 35px rgba(0,0,0,0.1);
+}
+.about-image img {
+    width: 100%;
+    height: 400px;
+    object-fit: cover;
+    display: block;
+    transition: transform 0.5s ease;
+}
+.about-image:hover img {
+    transform: scale(1.03);
+}
+.features {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 40px;
+    margin-top: 70px;
+}
+.feature-item {
+    text-align: center;
+    max-width: 200px;
+}
+.feature-item span {
+    font-size: 48px;
+    display: block;
+    margin-bottom: 15px;
+}
+.feature-item h4 {
+    font-size: 22px;
+    font-family: 'Cormorant Garamond', serif;
+    color: #556b57;
+    margin-bottom: 10px;
+}
+.feature-item p {
+    font-size: 14px;
+    color: #6d736e;
+}
+
+/* Стилі для розділу відгуків */
+.reviews-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 35px;
+    margin-top: 30px;
+}
+.review-card {
+    background: white;
+    border-radius: 30px;
+    padding: 30px;
+    box-shadow: 0 12px 35px rgba(0,0,0,0.08);
+    transition: 0.3s;
+}
+.review-card:hover {
+    transform: translateY(-8px);
+}
+.review-header {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    margin-bottom: 20px;
+}
+.review-avatar {
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    object-fit: cover;
+    background: #edf1eb;
+}
+.review-info h4 {
+    font-size: 18px;
+    color: #3c4a3f;
+    margin-bottom: 5px;
+}
+.review-date {
+    font-size: 12px;
+    color: #8a9a8c;
+}
+.stars {
+    color: #d4af37;
+    font-size: 18px;
+    letter-spacing: 2px;
+    margin-bottom: 15px;
+}
+.review-text {
+    color: #555;
+    line-height: 1.7;
+    font-style: italic;
+}
+.review-room {
+    margin-top: 15px;
+    font-size: 13px;
+    color: #7b5e45;
+    font-weight: 600;
+}
+/* Стиль для поля пароля в адмін-панелі */
+.password-input {
+    width: 100%;
+    margin-bottom: 20px;
+}
+.password-input input {
+    width: 100%;
+    text-align: center;
+    font-size: 18px;
+}
+.admin-login-btn {
+    width: 100%;
+    background: #556b57;
+}
+.admin-login-btn:hover {
+    background: #3c4a3f;
+}
+
+@media(max-width:768px){
+ nav{
+   padding:20px;
+   flex-direction:column;
+   gap:15px;
+ }
+ .hero-title{
+   font-size:58px;
+ }
+ .hero-text{
+   font-size:18px;
+ }
+ section{
+   padding:90px 5%;
+ }
+ .booking{
+   padding:35px;
+ }
+ .section-title{
+   font-size: 48px;
+ }
+ .about-content {
+   flex-direction: column;
+   gap: 30px;
+ }
+ .about-image img {
+   height: 280px;
+ }
+}
+</style>
+</head>
+<body>
+<nav>
+ <h1>Chardonnay</h1>
+ <ul>
+   <li><a href="#rooms">Номери</a></li>
+   <li><a href="#booking">Бронювання</a></li>
+   <li><a href="#about">Про нас</a></li>
+   <li><a href="#reviews">Відгуки</a></li>
+   <li><a href="#" class="admin-nav-btn" onclick="openAdminPanel()">🔐 Адмін-панель</a></li>
+ </ul>
+</nav>
+<header>
+ <p class="hero-subtitle"> HOTEL • SPA • RESTAURANT </p>
+ <h1 class="hero-title"> Готель Chardonnay </h1>
+ <p class="hero-text"> Елегантний простір для відпочинку, де поєднуються атмосфера затишку, вишуканий сервіс та сучасний комфорт. </p>
+ <a href="#booking" class="btn"> Забронювати номер </a>
+</header>
+
+<!-- РОЗДІЛ "ПРО НАС" -->
+<section id="about">
+ <h2 class="section-title"> Про нас </h2>
+ <div class="about-content">
+   <div class="about-text">
+     <p><strong>Готель «Chardonnay»</strong> - це не просто місце для ночівлі, а справжній оазис спокою в серці мальовничого куточка України. Заснований у 2015 році, наш готель поєднує сучасний підхід до гостинності з класичною європейською елегантністю.</p>
+     <p>Ми створили простір, де кожна деталь працює на ваш комфорт: від натуральних матеріалів в інтер'єрі до авторської кухні від шеф-кухаря. Наші гості - це творчі люди, бізнесмени та закохані пари, які цінують тишу, якість та індивідуальний підхід.</p>
+     <p>У готелі «Chardonnay» ви знайдете не лише розкішні номери, але й спа-центр із кришталевою сауною, відкритий басейн із підігрівом, а також винний льох, де щовихідних проходять дегустації. Наша команда з професіоналів щодня дбає про те, щоб ваше перебування було бездоганним.</p>
+     <p><strong>Наш принцип:</strong> гостинність без зайвого пафосу, турбота без нав'язливості. Ласкаво просимо до «Chardonnay» - вашого будинку далеко від дому.</p>
+   </div>
+   <div class="about-image">
+     <img src="https://images.unsplash.com/photo-1582719478250-c89cae4dc85b?q=80&w=1200&auto=format&fit=crop" alt="Інтер'єр готелю Chardonnay">
+   </div>
+ </div>
+ <div class="features">
+   <div class="feature-item">
+     <span>🏆</span>
+     <h4>5 років лідерства</h4>
+     <p>Нагорода "Найкращий готель" 2024</p>
+   </div>
+   <div class="feature-item">
+     <span>🍷</span>
+     <h4>Вина світу</h4>
+     <p>200+ сортів у власному льоху</p>
+   </div>
+   <div class="feature-item">
+     <span>💆‍♀️</span>
+     <h4>SPA-комплекс</h4>
+     <p>4 види саун та масажні кабінети</p>
+   </div>
+   <div class="feature-item">
+     <span>⭐</span>
+     <h4>100% рекомендують</h4>
+     <p>Рейтинг 9.8 на провідних платформах</p>
+   </div>
+ </div>
+</section>
+
+<section id="rooms">
+ <h2 class="section-title"> Номери </h2>
+ <div class="rooms">
+   <div class="room-card">
+     <img src="https://images.unsplash.com/photo-1590490360182-c33d57733427?q=80&w=1200&auto=format&fit=crop">
+     <div class="room-content">
+       <h3>Стандарт</h3>
+       <p> Затишний номер для двох гостей. </p>
+       <div class="price"> 2500 грн / ніч </div>
+     </div>
+   </div>
+   <div class="room-card">
+     <img src="https://images.unsplash.com/photo-1578683010236-d716f9a3f461?q=80&w=1200&auto=format&fit=crop">
+     <div class="room-content">
+       <h3>Люкс</h3>
+       <p> Просторий номер із преміальним сервісом. </p>
+       <div class="price"> 5200 грн / ніч </div>
+     </div>
+   </div>
+   <div class="room-card">
+     <img src="https://images.unsplash.com/photo-1566665797739-1674de7a421a?q=80&w=1200&auto=format&fit=crop">
+     <div class="room-content">
+       <h3>Президентський</h3>
+       <p> Максимальний комфорт для VIP гостей. </p>
+       <div class="price"> 9800 грн / ніч </div>
+     </div>
+   </div>
+ </div>
+</section>
+
+<!-- РОЗДІЛ "ВІДГУКИ" -->
+<section id="reviews">
+ <h2 class="section-title"> Відгуки гостей </h2>
+ <p class="section-subtitle"> Реальні враження тих, хто вже відпочив у готелі «Chardonnay» </p>
+ <div class="reviews-grid" id="reviewsContainer">
+   <!-- Відгуки будуть вставлені через JavaScript -->
+ </div>
+</section>
+
+<section id="booking">
+ <h2 class="section-title"> Онлайн бронювання </h2>
+ <div class="booking">
+   <form id="bookingForm">
+     <input type="text" id="clientName" placeholder="Ваше ім’я" required>
+     <input type="email" id="clientEmail" placeholder="Email" required>
+     <select id="roomType">
+       <option value="2500"> Стандарт — 2500 грн </option>
+       <option value="5200"> Люкс — 5200 грн </option>
+       <option value="9800"> Президентський — 9800 грн </option>
+     </select>
+     <input type="number" id="days" placeholder="Кількість днів" min="1" required>
+     <select id="discount">
+       <option value="0"> Новий клієнт — без знижки </option>
+       <option value="10"> Постійний клієнт — 10% </option>
+       <option value="15"> VIP клієнт — 15% </option>
+     </select>
+     <div class="total-box">
+       Загальна вартість: <span id="total">0</span> грн
+       <div class="old-price" id="oldPrice"> </div>
+     </div>
+     <button class="btn" type="submit"> Підтвердити бронювання </button>
+   </form>
+ </div>
+</section>
+
+<!-- МОДАЛЬНЕ ВІКНО ТІЛЬКИ ДЛЯ АДМІНА -->
+<div class="admin-modal" id="adminModal">
+ <div class="admin-box">
+   <span class="close-btn" onclick="closeAdminPanel()"> × </span>
+   <h2> 🔐 Вхід в адмін-панель </h2>
+   <div class="password-input">
+     <input type="password" id="adminPassword" placeholder="Введіть пароль адміністратора">
+   </div>
+   <button class="btn admin-login-btn" onclick="checkAdminPassword()"> Увійти </button>
+   
+   <div id="analyticsContent" style="display:none; margin-top: 40px;">
+     <h2 style="margin-top:30px;"> Аналітична діяльність </h2>
+     <div class="report-cards">
+       <div class="report-card">
+         <h3> 📊 Звіт бронювань </h3>
+         <p id="bookingReport"> Оформлено <strong>0</strong> бронювань. </p>
+         <img class="chart-img" id="bookingChart" src="">
+       </div>
+       <div class="report-card">
+         <h3> 👑 Постійні клієнти </h3>
+         <p id="vipReport"> VIP гостей: <strong>0</strong> </p>
+         <img class="chart-img" id="vipChart" src="">
+       </div>
+     </div>
+     <h2 style="margin-top:60px;"> 📋 Оформлені бронювання </h2>
+     <div class="report-cards" id="bookingsList"> </div>
+   </div>
+ </div>
+</div>
+
+<footer>
+ <h2> Готель «Chardonnay» </h2>
+ <p> Luxury Hotel & SPA © 2026 | вул. Червнева, 29, м. Львів | +38 (067) 123-45-67 </p>
+</footer>
+
+<script>
+ // ========== МАСИВ ВІДГУКІВ ==========
+ const reviewsData = [
+   {
+     name: "Олена Коваленко",
+     avatar: "https://randomuser.me/api/portraits/women/68.jpg",
+     date: "15 березня 2026",
+     stars: 5,
+     text: "Неймовірний відпочинок! Номер Люкс перевершив очікування — просторий, з панорамним видом на гори. Спа-центр чудовий, особливо кришталева сауна. Обов'язково повернуся з родиною!",
+     room: "Люкс"
+   },
+   {
+     name: "Андрій Мельник",
+     avatar: "https://randomuser.me/api/portraits/men/32.jpg",
+     date: "2 лютого 2026",
+     stars: 5,
+     text: "Професійний сервіс та уважний персонал. Дуже сподобалась вечеря в ресторані — вино рекомендували ідеально під стейк. Президентський номер розкішний. Дякую за чудовий вікенд!",
+     room: "Президентський"
+   },
+   {
+     name: "Ірина Шевченко",
+     avatar: "https://randomuser.me/api/portraits/women/45.jpg",
+     date: "10 січня 2026",
+     stars: 4,
+     text: "Чудовий готель для романтичної подорожі. Все дуже чисто та стильно. Єдине — бажано більше розеток біля ліжка. Але загалом враження чудові, рекомендую!",
+     room: "Стандарт"
+   },
+   {
+     name: "Михайло Ткаченко",
+     avatar: "https://randomuser.me/api/portraits/men/75.jpg",
+     date: "5 грудня 2025",
+     stars: 5,
+     text: "Приїжджаю вже вдруге. Готель стабільно тримає високу планку. Смачні сніданки, неймовірно зручне ліжко, тиша в номерах. Відпочиваєш на всі 100%. Дякую команді Chardonnay!",
+     room: "Люкс"
+   }
+ ];
+
+ // Функція для генерації зірок
+ function renderStars(rating) {
+   let starsHtml = '';
+   for(let i = 1; i <= 5; i++) {
+     starsHtml += i <= rating ? '★' : '☆';
+   }
+   return starsHtml;
+ }
+
+ // Функція для відображення відгуків
+ function displayReviews() {
+   const container = document.getElementById('reviewsContainer');
+   if(!container) return;
+   
+   let reviewsHtml = '';
+   reviewsData.forEach(review => {
+     reviewsHtml += `
+       <div class="review-card">
+         <div class="review-header">
+           <img class="review-avatar" src="${review.avatar}" alt="${review.name}">
+           <div class="review-info">
+             <h4>${review.name}</h4>
+             <div class="review-date">${review.date}</div>
+           </div>
+         </div>
+         <div class="stars">${renderStars(review.stars)}</div>
+         <p class="review-text">“${review.text}”</p>
+         <div class="review-room">Проживав(ла): ${review.room}</div>
+       </div>
+     `;
+   });
+   container.innerHTML = reviewsHtml;
+ }
+
+ // ========== ОСНОВНА ЛОГІКА БРОНЮВАНЬ ==========
+ const roomType = document.getElementById('roomType');
+ const days = document.getElementById('days');
+ const discount = document.getElementById('discount');
+ const totalSpan = document.getElementById('total');
+ let bookings = JSON.parse(localStorage.getItem('bookings')) || [];
+
+ function saveBookings(){
+   localStorage.setItem('bookings', JSON.stringify(bookings));
+ }
+
+ function calculateTotal(){
+   const roomPrice = Number(roomType.value);
+   const dayCount = Number(days.value);
+   const discountValue = Number(discount.value);
+   let originalPrice = roomPrice * dayCount;
+   let discountedPrice = originalPrice - (originalPrice * discountValue / 100);
+   totalSpan.innerText = discountedPrice || 0;
+   if(discountValue > 0){
+     document.getElementById('oldPrice').innerHTML = "Ціна без знижки: " + originalPrice + " грн";
+   }else{
+     document.getElementById('oldPrice').innerHTML = "";
+   }
+ }
+
+ roomType.addEventListener('change', calculateTotal);
+ days.addEventListener('input', calculateTotal);
+ discount.addEventListener('change', calculateTotal);
+
+ document.getElementById('bookingForm').addEventListener('submit', function(e){
+   e.preventDefault();
+   const clientName = document.getElementById('clientName').value;
+   const clientEmail = document.getElementById('clientEmail').value;
+   const roomFullText = roomType.options[roomType.selectedIndex].text;
+   const finalPrice = Number(totalSpan.innerText);
+   const discountText = discount.options[discount.selectedIndex].text;
+   
+   if(clientName && clientEmail && finalPrice > 0){
+     bookings.push({
+       name: clientName,
+       email: clientEmail,
+       room: roomFullText,
+       price: finalPrice,
+       discount: discountText
+     });
+     saveBookings();
+     updateBookings();
+     updateAnalytics();
+     alert("✅ Бронювання успішно оформлено! Дякуємо, що обрали «Chardonnay».");
+     document.getElementById('bookingForm').reset();
+     totalSpan.innerText = 0;
+     document.getElementById('oldPrice').innerHTML = "";
+   } else {
+     alert("❌ Будь ласка, заповніть усі поля коректно.");
+   }
+ });
+
+ function updateBookings(){
+   let bookingsHTML = "";
+   if(bookings.length === 0){
+     bookingsHTML = `<p style="grid-column:1/-1; text-align:center;">📭 Бронювань поки немає.</p>`;
+   }else{
+     bookings.slice().reverse().forEach(function(item){
+       bookingsHTML += `<div class="report-card">
+         <h3>👤 ${escapeHtml(item.name)}</h3>
+         <p><strong>${escapeHtml(item.room)}</strong></p>
+         <p>🏷️ ${escapeHtml(item.discount)}</p>
+         <p>💰 Вартість: <strong>${item.price} грн</strong></p>
+       </div>`;
+     });
+   }
+   document.getElementById('bookingsList').innerHTML = bookingsHTML;
+ }
+
+ function escapeHtml(str) {
+   if(!str) return '';
+   return str.replace(/[&<>]/g, function(m) {
+     if(m === '&') return '&amp;';
+     if(m === '<') return '&lt;';
+     if(m === '>') return '&gt;';
+     return m;
+   });
+ }
+
+ function updateAnalytics(){
+   const totalBookings = bookings.length;
+   let vipClients = 0;
+   let standardRooms = 0;
+   let luxRooms = 0;
+   let presidentRooms = 0;
+   
+   bookings.forEach(function(item){
+     if(item.discount && item.discount.includes('VIP')){
+       vipClients++;
+     }
+     if(item.room && item.room.includes('Стандарт')){
+       standardRooms++;
+     }
+     if(item.room && item.room.includes('Люкс')){
+       luxRooms++;
+     }
+     if(item.room && item.room.includes('Президентський')){
+       presidentRooms++;
+     }
+   });
+   
+   document.getElementById('bookingReport').innerHTML = `Оформлено <strong>${totalBookings}</strong> бронювань.`;
+   document.getElementById('vipReport').innerHTML = `VIP гостей: <strong>${vipClients}</strong>`;
+   
+   document.getElementById('bookingChart').src = `https://quickchart.io/chart?c={ type:'bar', data:{ labels:['Стандарт','Люкс','Президентський'], datasets:[{ label:'Бронювання', data:[ ${standardRooms}, ${luxRooms}, ${presidentRooms} ] }] } }`;
+   document.getElementById('vipChart').src = `https://quickchart.io/chart?c={ type:'pie', data:{ labels:['VIP','Інші'], datasets:[{ data:[ ${vipClients}, ${totalBookings - vipClients} ] }] } }`;
+ }
+
+ // Функції для адмін-панелі
+ function openAdminPanel(){
+   document.getElementById('adminModal').style.display = 'flex';
+   document.getElementById('analyticsContent').style.display = 'none';
+   document.getElementById('adminPassword').value = '';
+ }
+ 
+ function closeAdminPanel(){
+   document.getElementById('adminModal').style.display = 'none';
+   document.getElementById('analyticsContent').style.display = 'none';
+   document.getElementById('adminPassword').value = '';
+ }
+ 
+ function checkAdminPassword(){
+   const password = document.getElementById('adminPassword').value;
+   if(password === "1111"){
+     document.getElementById('analyticsContent').style.display = 'block';
+     updateBookings();
+     updateAnalytics();
+     document.getElementById('adminPassword').value = '';
+   }else{
+     alert("❌ Невірний пароль! Доступ лише для адміністратора.");
+   }
+ }
+
+ // Ініціалізація при завантаженні
+ window.addEventListener('DOMContentLoaded', function() {
+   displayReviews();      // показуємо відгуки
+   calculateTotal();      // рахуємо вартість
+   if(bookings.length > 0){
+     updateBookings();
+     updateAnalytics();
+   }
+ });
+</script>
+</body>
+</html>
